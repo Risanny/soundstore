@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin – Заказы</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/admin/products">SoundStore Admin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="adminNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/admin/products">Товары</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/admin/orders">Заказы</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Управление заказами</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Клиент</th>
+                <th>Адрес</th>
+                <th>Телефон</th>
+                <th>Состав</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.user.email}"></td>
+                <td th:text="${order.itemsJson}"></td>
+                <td th:text="${order.user.email}"></td> <!-- здесь можно добавить phone/address в модель -->
+                <td><pre th:text="${order.itemsJson}"></pre></td>
+                <td th:text="${order.status}" class="fw-bold"></td>
+                <td>
+                    <form th:action="@{|/admin/orders/${order.id}/status|}" method="post" class="d-flex align-items-center">
+                        <select name="status" class="form-select form-select-sm me-2">
+                            <option th:each="st : ${statuses}" th:value="${st}" th:text="${st}" th:selected="${st}==${order.status}"></option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="text-center py-3 mt-5 border-top">© 2025 SoundStore</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

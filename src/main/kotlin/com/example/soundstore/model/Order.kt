@@ -13,7 +13,7 @@ data class Order(
     @Column(nullable = false)
     val itemsJson: String,
     @Enumerated(EnumType.STRING)
-    val status: OrderStatus = OrderStatus.PENDING,
+    var status: OrderStatus = OrderStatus.PENDING,
     val createdAt: LocalDateTime = LocalDateTime.now()
 )
 
